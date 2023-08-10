@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loja Virtual</title>
+
+    <!-- Definindo os estilos CSS -->
+    <style>
+        /* Estilos gerais */
+        * {
+            font-family: 'Lato', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        /* Estilo dos produtos individuais */
+        .produto-single {
+            width: 200px;
+            height: auto;
+            margin-right: 1%;
+            border: 1px solid #ccc;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        
+        /* Estilo do contêiner de produtos */
+        #produtos {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 2%;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        
+        /* Estilo do contêiner do carrinho */
+        #carrinho {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 2%;
+            display: block;
+        }
+        
+        /* Estilos das imagens dos produtos */
+        .produto-single img {
+            max-width: 100%;
+        }
+        
+        /* Estilos dos textos dos produtos */
+        .produto-single p {
+            text-align: center;
+            font-size: 16px;
+            padding: 10px;
+        }
+        
+        /* Estilos dos links "Adicionar ao carrinho" */
+        .produto-single a {
+            text-decoration: none;
+            color: white;
+            background-color: #5fb382;
+            text-align: center;
+            display: block;
+            padding: 4px 0;
+            font-size: 16px;
+        }
+        
+        /* Estilos dos cabeçalhos */
+        h2 {
+            background-color: #4c3282;
+            padding: 10px 0;
+            text-align: center;
+            color: white;
+        }
+        
+        /* Estilos das informações no checkout do carrinho */
+        .info-single-checkout{
+            border-bottom: 2px solid;
+            padding: 10px 0;
+        }
+        
+        /* Media query para telas menores */
+        @media screen and (max-width: 768px) {
+            .produto-single {
+                width: 100%;
+                margin-right: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Título "Vitrine" -->
+<h2>Vitrine</h2>
+
+<!-- Div para exibir os produtos -->
+<div id="produtos">
+
+</div>
+
+<!-- Título "Carrinho" -->
+<h2>Carrinho</h2>
+
+<!-- Div para exibir os produtos no carrinho -->
+<div id="carrinho">
+
+</div>
+
+<!-- Script JavaScript -->
+<script>
+    // Array de produtos
+    const items = [
+        {
+            id: 0,
+            nome: 'Camiseta Modelo 1',
+            img: 'tshirt1.jpg',
+            quantidade: 0
+        },
+        {
+            id: 1,
+            nome: 'Camiseta Modelo 2',
+            img: 'tshirt2.jpg',
+            quantidade: 0
+        },
+        {
+            id: 2,
+            nome: 'Camiseta Modelo 3',
+            img: 'tshirt3.jpg',
+            quantidade: 0
+        }
+    ];
+
+    // Função para preencher a vitrine com produtos
+    function inicializarLoja() {
+        var containerProdutos = document.getElementById('produtos');
+        items.map((val) => {
+            containerProdutos.innerHTML += `
+            
+            <div class="produto-single">
+                <img src="${val.img}" />
+                <p>${val.nome}</p>
+                <a key="${val.id}" href="#" class="adicionar-carrinho">Adicionar ao carrinho!</a>
+            </div>
+            `;
+        });
+    }
+
+    // Inicializa a vitrine
+    inicializarLoja();
+
+    // Obtém o contêiner do carrinho
+    var containerCarrinho = document.getElementById('carrinho');
+
+    // Função para atualizar o carrinho
+    atualizarCarrinho = () => {
+        containerCarrinho.innerHTML = ''; // Limpa o carrinho antes de atualizar
+        items.map((val) => {
+            if (val.quantidade > 0) {
+                containerCarrinho.innerHTML += `
+                <div class="info-single-checkout">
+                    <p style="float: left;">Produto: ${val.nome}</p>
+                    <p style="float: right;">Quantidade: ${val.quantidade}</p>
+                    <div style="clear: both;"></div>
+                </div>
+                `;
+            }
+        });
+    };
+
+    // Obtém os links "Adicionar ao carrinho"
+    var links = document.getElementsByClassName('adicionar-carrinho');
+
+    // Adiciona um evento de clique a cada link
+    for (var i = 0; i < links.length; i++) {
+        links[i].addEventListener("click", function (event) {
+            event.preventDefault();
+            let key = this.getAttribute('key');
+            items[key].quantidade++;
+            atualizarCarrinho();
+        });
+    }
+</script>
+</body>
+</html>
